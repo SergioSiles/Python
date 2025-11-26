@@ -9,10 +9,17 @@ ids_disponibles = datos["ID"].tolist()
 
 campos_notas = list(datos.columns.difference(["ID", "Nombre", "Apellidos", "Asistencia"]))
 
-
 @app.get("/info-alumnos")
-def obtener_ids():
-    return {"alumnos_registrados": ids_disponibles}
+def obtener_info():
+    lista = []
+
+    for _, fila in datos.iterrows():
+        nombre = fila["Nombre"]
+        id_ = fila["ID"]
+        lista.append(f"{nombre} - {id_}")
+
+    return {"alumnos": lista}
+
 
 
 @app.get("/asistencia")
