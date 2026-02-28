@@ -1,0 +1,47 @@
+{% extends "base.html" %} {% block content %}
+
+<div class="min-h-[70vh] flex items-center justify-center">
+  <div class="w-full max-w-md bg-white shadow-2xl rounded-3xl p-10">
+    <h2 class="text-3xl font-extrabold text-center text-gray-800 mb-2">
+      📝 Crear cuenta
+    </h2>
+
+    <p class="text-center text-gray-500 mb-8">Únete a DevChallenges 🚀</p>
+
+    <form method="POST" class="space-y-5">
+      {{ form.hidden_tag() }}
+
+      <!-- USERNAME -->
+      <div>
+        {{ form.username.label(class="text-sm font-semibold text-gray-600") }}
+        {{ form.username(class="w-full mt-1 border border-gray-300 rounded-xl
+        px-4 py-3 focus:ring-2 focus:ring-green-500 outline-none transition") }}
+      </div>
+
+      <!-- PASSWORD -->
+      <div>
+        {{ form.password.label(class="text-sm font-semibold text-gray-600") }}
+        {{ form.password(class="w-full mt-1 border border-gray-300 rounded-xl
+        px-4 py-3 focus:ring-2 focus:ring-green-500 outline-none transition") }}
+      </div>
+
+      <!-- BOTON -->
+      {{ form.submit( class="w-full bg-gradient-to-r from-green-600 to-green-700
+      text-white py-3 rounded-xl font-bold shadow-lg hover:scale-[1.02]
+      transition" ) }}
+    </form>
+
+    <!-- LINK LOGIN -->
+    <p class="text-sm text-center text-gray-500 mt-6">
+      ¿Ya tienes cuenta?
+      <a
+        href="{{ url_for('login') }}"
+        class="text-blue-600 font-semibold hover:underline"
+      >
+        Inicia sesión
+      </a>
+    </p>
+  </div>
+</div>
+
+{% endblock %}

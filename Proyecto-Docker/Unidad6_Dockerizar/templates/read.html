@@ -1,0 +1,105 @@
+{% extends "base.html" %} {% block content %}
+
+<!-- 🧠 HEADER -->
+<div
+  class="flex flex-col md:flex-row md:items-center md:justify-between mb-10 gap-4"
+>
+  <h1 class="text-4xl font-extrabold text-gray-800">🚀 Retos</h1>
+
+  <p class="text-gray-500">{{ challenges|length }} retos disponibles</p>
+</div>
+
+<!-- 🎛️ FILTROS -->
+<div class="flex flex-wrap gap-3 mb-10">
+  {% macro tab(name, url, active, color) %}
+  <a
+    href="{{ url }}"
+    class="px-5 py-2.5 rounded-xl font-semibold transition
+     {% if active %}
+        {{ color }} text-white shadow-md
+     {% else %}
+        bg-white hover:bg-gray-100 text-gray-700 border
+     {% endif %}"
+  >
+    {{ name }}
+  </a>
+  {% endmacro %} {{ tab("Todos", url_for('read_challenges'), not language and
+  not my, "bg-blue-600") }} {{ tab("Python", url_for('read_challenges',
+  language='Python'), language == 'Python', "bg-blue-600") }} {{ tab("Java",
+  url_for('read_challenges', language='Java'), language == 'Java',
+  "bg-blue-600") }} {{ tab("JS", url_for('read_challenges',
+  language='JavaScript'), language == 'JavaScript', "bg-blue-600") }} {{
+  tab("C#", url_for('read_challenges', language='C#'), language == 'C#',
+  "bg-blue-600") }} {{ tab("SQL", url_for('read_challenges', language='SQL'),
+  language == 'SQL', "bg-blue-600") }} {% if session.get('user') %} {{ tab("Mis
+  retos", url_for('read_challenges', my=1), my, "bg-purple-600") }} {% endif %}
+</div>
+
+<!-- 🧩 GRID -->
+{% if challenges|length > 0 %}
+
+<div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+  {% for challenge in challenges %}
+
+  <div
+    class="bg-white rounded-2xl shadow-md hover:shadow-2xl hover:-translate-y-1 transition p-6 flex flex-col justify-between"
+  >
+    <!-- CONTENIDO -->
+    <div>
+      <h2 class="text-xl font-bold text-gray-800 mb-3">
+        {{ challenge.title }}
+      </h2>
+
+      <div class="flex gap-2 mb-3 text-xs font-bold">
+        <span class="bg-blue-100 text-blue-700 px-2 py-1 rounded">
+          {{ challenge.language }}
+        </span>
+
+        <span class="bg-purple-100 text-purple-700 px-2 py-1 rounded">
+          {{ challenge.level }}
+        </span>
+      </div>
+
+      <p class="text-sm text-gray-500 mb-6">👤 {{ challenge.author }}</p>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="flex justify-between items-center">
+      <a
+        href="{{ url_for('challenge_detail', id=challenge._id) }}"
+        class="text-blue-600 font-semibold hover:underline"
+      >
+        Ver reto →
+      </a>
+
+      {% if session.get('user') == challenge.author or session.get('role') ==
+      'admin' %}
+      <div class="flex gap-3 text-sm font-semibold">
+        <a
+          href="{{ url_for('edit_challenge', id=challenge._id) }}"
+          class="text-yellow-600 hover:text-yellow-800"
+        >
+          ✏️
+        </a>
+
+        <a
+          href="{{ url_for('delete_challenge', id=challenge._id) }}"
+          class="text-red-600 hover:text-red-800"
+        >
+          🗑️
+        </a>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+
+  {% endfor %}
+</div>
+
+{% else %}
+
+<div class="bg-white p-10 rounded-2xl shadow text-center">
+  <p class="text-gray-500 text-lg">😢 No hay retos disponibles.</p>
+</div>
+
+{% endif %} {% endblock %}

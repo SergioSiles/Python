@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>DevChallenges</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+
+  <body class="bg-gradient-to-br from-gray-100 to-gray-200 min-h-screen">
+    <!-- NAVBAR -->
+    <nav class="bg-gray-900/95 backdrop-blur sticky top-0 z-50 shadow-lg">
+      <div
+        class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center text-white"
+      >
+        <!-- LOGO -->
+        <a
+          href="{{ url_for('index') }}"
+          class="flex items-center gap-3 text-xl font-extrabold tracking-wide hover:opacity-90 transition"
+        >
+          <span class="text-2xl">💻</span>
+          DevChallenges
+        </a>
+
+        <!-- LINKS -->
+        <div class="flex items-center gap-6 text-sm font-medium">
+          <a href="{{ url_for('index') }}" class="relative group">
+            Inicio
+            <span
+              class="absolute left-0 -bottom-1 w-0 h-0.5 bg-blue-500 transition-all group-hover:w-full"
+            ></span>
+          </a>
+
+          <a href="{{ url_for('read_challenges') }}" class="relative group">
+            Retos
+            <span
+              class="absolute left-0 -bottom-1 w-0 h-0.5 bg-blue-500 transition-all group-hover:w-full"
+            ></span>
+          </a>
+
+          {% if session.get('user') %}
+
+          <!-- USER -->
+          <span class="bg-gray-800 px-3 py-1 rounded-full text-gray-300">
+            👋 {{ session.get('user') }}
+          </span>
+
+          <!-- NUEVO -->
+          <a
+            href="{{ url_for('add_challenge') }}"
+            class="bg-gradient-to-r from-blue-600 to-blue-700 px-4 py-1.5 rounded-lg font-semibold shadow hover:scale-105 transition"
+          >
+            + Nuevo
+          </a>
+
+          <!-- LOGOUT -->
+          <a
+            href="{{ url_for('logout') }}"
+            class="hover:text-red-400 transition"
+          >
+            Logout
+          </a>
+
+          {% else %}
+
+          <a
+            href="{{ url_for('login') }}"
+            class="hover:text-blue-400 transition"
+          >
+            Login
+          </a>
+
+          <a
+            href="{{ url_for('register') }}"
+            class="bg-blue-600 px-4 py-1.5 rounded-lg hover:bg-blue-700 transition font-semibold shadow"
+          >
+            Registro
+          </a>
+
+          {% endif %}
+        </div>
+      </div>
+    </nav>
+
+    <!-- CONTENT -->
+    <main class="max-w-7xl mx-auto py-12 px-6">
+      {% block content %}{% endblock %}
+    </main>
+  </body>
+</html>
